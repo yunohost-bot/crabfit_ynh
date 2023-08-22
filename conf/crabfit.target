@@ -1,0 +1,6 @@
+[Unit]
+Description=Crabfit (__APP__)
+Wants=__APP__-front.service __APP__-back.service
+
+[Install]
+WantedBy=multi-user.target
