@@ -10,6 +10,8 @@ Group=__APP__
 WorkingDirectory=__INSTALL_DIR__/frontend
 StandardOutput=append:/var/log/__APP__/__APP__-front.log
 StandardError=inherit
+Environment=__YNH_NODE_LOAD_PATH__
+Environment=PORT=__PORT__
 ExecStart=__YNH_NPM__ run start
 
 # Sandboxing options to harden security

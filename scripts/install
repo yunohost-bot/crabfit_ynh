@@ -29,9 +29,10 @@ ynh_use_nodejs
 ynh_script_progression --message="Adding system configurations related to $app..." --weight=1
 
 # Create a dedicated NGINX config using the conf/nginx.conf template
-ynh_add_config --template="../conf/crabfit.target" --destination="/etc/systemd/system/$app.target"
+ynh_add_nginx_config
 
 # Create a dedicated systemd config
+ynh_add_config --template="../conf/crabfit.target" --destination="/etc/systemd/system/$app.target"
 ynh_add_systemd_config --service="${app}-front" --template="crabfit-front.service"
 ynh_add_systemd_config --service="${app}-back" --template="crabfit-back.service"
 
@@ -63,6 +64,11 @@ ynh_script_progression --message="Building crabfit backend..." --weight=1
 # The cargo version packaged with debian (currently 11) is too old and results in errors..
 # Thus the latest version is manually installed alongside the application for the moment
 pushd $install_dir/api
+	# The API port is currently hard-coded instead of being in a .env
+	# TODO: MR to the upstream
+	# In the meantime, lets do some sed!
+	sed "s/3000/$port_api/g" src/main.rs
+	
 	curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs > rustup.sh
 	ynh_exec_warn_less ynh_exec_as "$app" \
 		RUSTUP_HOME=$install_dir/api/.rustup \
@@ -72,7 +78,7 @@ pushd $install_dir/api
 	ynh_exec_warn_less ynh_exec_as "$app" \
 		RUSTUP_HOME=$install_dir/api/.rustup \
 		CARGO_HOME=$install_dir/api/.cargo \
-		$install_dir/api/.cargo/bin/cargo build --release #--features sql-adaptor
+		$install_dir/api/.cargo/bin/cargo build --release --features sql-adaptor
 
 	# Remove build files and rustup
 # 	cp -af "$install_dir/api/target/release/crabfit-api" "$install_dir/api/api"
@@ -86,9 +92,9 @@ popd
 #=================================================
 ynh_script_progression --message="Building crabfit frontend..." --weight=1
 pushd $install_dir/frontend
-	ynh_exec_warn_less ynh_exec_as "$app" $nodejs_path/corepack enable
-	ynh_exec_warn_less ynh_exec_as "$app" $nodejs_path/yarn install --production --frozen-lockfile
-	ynh_exec_warn_less ynh_exec_as "$app" $ynh_npm run build
+	ynh_exec_warn_less ynh_exec_as "$app" env "$ynh_node_load_PATH" $nodejs_path/corepack enable
+	ynh_exec_warn_less ynh_exec_as "$app" env "$ynh_node_load_PATH" $nodejs_path/yarn install --production --frozen-lockfile
+	ynh_exec_warn_less ynh_exec_as "$app" env "$ynh_node_load_PATH" $ynh_npm run build
 popd
 
 #=================================================
@@ -99,9 +105,8 @@ popd
 ynh_script_progression --message="Starting systemd services..." --weight=1
 
 # Start a systemd service
-# Changed the log path to systemd accoding to what funkwhale_ynh does but dunno why
-ynh_systemd_action --service_name="${app}-front" --action="start" --log_path="systemd"
-ynh_systemd_action --service_name="${app}-back" --action="start" --log_path="systemd"
+ynh_systemd_action --service_name="${app}-front" --action="start" --log_path="/var/log/$app/${app}-front.log"
+ynh_systemd_action --service_name="${app}-back" --action="start" --log_path="/var/log/$app/${app}-back.log"
 
 #=================================================
 # END OF SCRIPT
