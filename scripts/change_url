@@ -31,6 +31,13 @@ ynh_change_url_nginx_config
 #=================================================
 # ...
 #=================================================
+ynh_add_config --template="../conf/front.env" --destination="$install_dir/frontend/.env.local"
+ynh_add_config --template="../conf/back.env" --destination="$install_dir/api/.env"
+
+# Next.js copies some env values inside the
+# production build so we have to rebuild it
+ynh_use_nodejs
+build_frontend
 
 #=================================================
 # GENERIC FINALISATION

@@ -25,27 +25,18 @@ multi_instance = true
 ldap = false
 sso = false
 disk = "500M"
-ram.build = "100M"
+ram.build = "500M"
 ram.runtime = "100M"
 
 [install]
     [install.domain]
     type = "domain"
 
-    [install.path]
-    type = "path"
-    default = "/crab"
 
     [install.init_main_permission]
     type = "group"
     default = "visitors"
 
-    [install.language]
-    ask.en = "Choose the application language"
-    ask.fr = "Choisissez la langue de l'application"
-    type = "select"
-    choices = ["fr", "en"]
-    default = "fr"
 
 [resources]
     [resources.sources]
@@ -64,7 +55,7 @@ ram.runtime = "100M"
     api.default = 3001
 
     [resources.apt]
-    packages = "postgresql pkg-config"
+    packages = "postgresql pkg-config libssl-dev"
 
     [resources.database]
     type = "postgresql"
