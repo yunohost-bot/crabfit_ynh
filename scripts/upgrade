@@ -134,38 +134,12 @@ chown $app:$app "$install_dir/api/.env"
 #=================================================
 # BUILD BACKEND
 #=================================================
-ynh_script_progression --message="Building crabfit backend..." --weight=1
-
-# The cargo version packaged with debian (currently 11) is too old and results in errors..
-# Thus the latest version is manually installed alongside the application for the moment
-pushd $install_dir/api
-	curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs > rustup.sh
-	ynh_exec_warn_less ynh_exec_as "$app" \
-		RUSTUP_HOME=$install_dir/api/.rustup \
-		CARGO_HOME=$install_dir/api/.cargo \
-		sh rustup.sh -y -q --no-modify-path --default-toolchain=stable
-	export PATH="$PATH:$install_dir/.cargo/bin"
-	ynh_exec_warn_less ynh_exec_as "$app" \
-		RUSTUP_HOME=$install_dir/api/.rustup \
-		CARGO_HOME=$install_dir/api/.cargo \
-		$install_dir/api/.cargo/bin/cargo build --release #--features sql-adaptor
-
-	# Remove build files and rustup
-# 	cp -af "$install_dir/api/target/release/crabfit-api" "$install_dir/api/api"
-# 	ynh_secure_remove --file="$final_path/build"
-	ynh_secure_remove --file="$install_dir/api/.cargo"
-	ynh_secure_remove --file="$install_dir/api/.rustup"
-popd
+build_backend
 
 #=================================================
 # BUILD FRONTEND
 #=================================================
-ynh_script_progression --message="Building crabfit frontend..." --weight=1
-pushd $install_dir/frontend
-	ynh_use_nodejs
-	ynh_exec_warn_less ynh_exec_as "$app" env "$ynh_node_load_PATH" $nodejs_path/yarn install --production --frozen-lockfile
-	ynh_exec_warn_less ynh_exec_as "$app" env "$ynh_node_load_PATH" $ynh_npm run build
-popd
+build_frontend
 
 #=================================================
 # START SYSTEMD SERVICE
