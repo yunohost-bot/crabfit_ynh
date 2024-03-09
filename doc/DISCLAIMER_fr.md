@@ -1,0 +1,2 @@
+- Nécessite un domaine dédié
+- Télécharge et compile temporairement un cargo et le backend
