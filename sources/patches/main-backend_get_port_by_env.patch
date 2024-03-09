@@ -17,7 +17,7 @@ index da3e2c3..3ebd00e 100644
          .layer(TraceLayer::new_for_http());
  
 -    let addr = SocketAddr::from(([0, 0, 0, 0], 3000));
-+    let addr = SocketAddr::from(([0, 0, 0, 0], port));
++    let addr = SocketAddr::from(([127, 0, 0, 1], port));
  
      println!(
          "🦀 Crab Fit API listening at http://{} in {} mode",
