@@ -10,7 +10,7 @@ Group=__APP__
 WorkingDirectory=__INSTALL_DIR__/api
 StandardOutput=append:/var/log/__APP__/__APP__-back.log
 StandardError=inherit
-ExecStart=__INSTALL_DIR__/api/target/release/crabfit-api
+ExecStart=__INSTALL_DIR__/crabfit-api
 
 # Sandboxing options to harden security
 # Depending on specificities of your service/app, you may need to tweak these

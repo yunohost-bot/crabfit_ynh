@@ -34,12 +34,15 @@ function build_backend
 		# Remove build files and rustup
 		ynh_secure_remove --file="$install_dir/api/.cargo"
 		ynh_secure_remove --file="$install_dir/api/.rustup"
+		mv target/release/crabfit-api ..
+		ynh_secure_remove --file="$install_dir/api/target"
 	popd
 }
 
 function build_frontend
 {
 	ynh_script_progression --message="Building crabfit frontend..." --weight=1
+
 	pushd $install_dir/frontend
 		# Paths are currently absolute, which breaks having a /api/ path prefix
 		# TODO: MR to the upstream
@@ -50,6 +53,8 @@ function build_frontend
 		ynh_exec_warn_less ynh_exec_as "$app" env "$ynh_node_load_PATH" $nodejs_path/yarn install --production --frozen-lockfile
 		ynh_exec_warn_less ynh_exec_as "$app" env "$ynh_node_load_PATH" $ynh_npm run build
 	popd
+
+	ynh_secure_remove --file="$install_dir/.cache"
 }
 
 #=================================================
