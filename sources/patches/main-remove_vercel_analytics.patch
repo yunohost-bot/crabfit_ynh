@@ -1,0 +1,31 @@
+diff --git a/frontend/package.json b/frontend/package.json
+index 486af7a..4537034 100644
+--- a/frontend/package.json
++++ b/frontend/package.json
+@@ -15,7 +15,6 @@
+     "@giraugh/tools": "^1.6.0",
+     "@js-temporal/polyfill": "^0.4.4",
+     "@microsoft/microsoft-graph-client": "^3.0.5",
+-    "@vercel/analytics": "^1.0.1",
+     "accept-language": "^3.0.18",
+     "chroma.ts": "^1.0.10",
+     "hue-map": "^1.0.0",
+diff --git a/frontend/src/app/layout.tsx b/frontend/src/app/layout.tsx
+index d4c1466..83a99c0 100644
+--- a/frontend/src/app/layout.tsx
++++ b/frontend/src/app/layout.tsx
+@@ -1,6 +1,5 @@
+ import { Metadata } from 'next'
+ import { Karla } from 'next/font/google'
+-import { Analytics } from '@vercel/analytics/react'
+ 
+ import Egg from '/src/components/Egg/Egg'
+ import Settings from '/src/components/Settings/Settings'
+@@ -44,7 +43,6 @@ const RootLayout = async ({ children }: { children: React.ReactNode }) => {
+ 
+       {children}
+ 
+-      <Analytics />
+     </body>
+   </html>
+ }
