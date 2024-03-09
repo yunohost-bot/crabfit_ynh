@@ -10,8 +10,6 @@ export nodejs_version="18"
 #=================================================
 function build_backend
 {
-	ynh_script_progression --message="Building crabfit backend..." --weight=1
-
 	# The cargo version packaged with debian (currently 11) is too old and results in errors..
 	# Thus the latest version is manually installed alongside the application for the moment
 	pushd $install_dir/api
@@ -36,8 +34,6 @@ function build_backend
 
 function build_frontend
 {
-	ynh_script_progression --message="Building crabfit frontend..." --weight=1
-
 	pushd $install_dir/frontend
 		ynh_exec_warn_less env "$ynh_node_load_PATH" $nodejs_path/corepack enable
 		ynh_exec_warn_less ynh_exec_as "$app" env "$ynh_node_load_PATH" $nodejs_path/yarn install --production --frozen-lockfile

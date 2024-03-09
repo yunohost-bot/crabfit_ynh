@@ -60,11 +60,13 @@ chown $app:$app "$install_dir/api/.env"
 #=================================================
 # BUILD BACKEND
 #=================================================
+ynh_script_progression --message="Building crabfit backend..." --weight=10
 build_backend
 
 #=================================================
 # BUILD FRONTEND
 #=================================================
+ynh_script_progression --message="Building crabfit frontend..." --weight=2
 build_frontend
 
 #=================================================
