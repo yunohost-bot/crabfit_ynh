@@ -13,9 +13,8 @@ maintainers = ["limaanto"]
 license = "GPLv3"
 website = "https://crab.fit"
 demo = "https://crab.fit"
-#FIXME: Find where these two values will end up
-#admindoc = "https://yunohost.org/packaging_apps"
-#userdoc = "https://yunohost.org/apps"
+admindoc = "https://github.com/GRA0007/crab.fit"
+userdoc = "https://github.com/GRA0007/crab.fit"
 code = "https://github.com/GRA0007/crab.fit"
 
 [integration]
