@@ -2,7 +2,7 @@ packaging_format = 2
 
 id = "crabfit"
 name = "Crab Fit"
-description.en = "Enter your availability to find a time that works for everyone! "
+description.en = "Enter your availability to find a time that works for everyone"
 description.fr = "Trouver un temps correspondant à tout le monde en rentrant vos disponibilités"
 
 version = "1.0~ynh1"
@@ -18,7 +18,7 @@ userdoc = "https://github.com/GRA0007/crab.fit"
 code = "https://github.com/GRA0007/crab.fit"
 
 [integration]
-yunohost = ">= 11.1.21"
+yunohost = ">= 11.2"
 architectures = "all"
 multi_instance = true
 ldap = false
@@ -43,16 +43,22 @@ ram.runtime = "100M"
         sha256 = "cc87276d26242a90f32f1462319f0cff35c576f6c438cc20e68601f26701b33b"
 
     [resources.system_user]
+
     [resources.install_dir]
+
     [resources.permissions]
     main.url = "/"
+    api.url = "/api"
+    api.allowed = "visitors"
+    api.auth_header = false
+    api.show_tile = false
 
     [resources.ports]
     main.default = 3000
     api.default = 3001
 
     [resources.apt]
-    packages = "postgresql pkg-config libssl-dev"
+    packages = "postgresql, pkg-config, libssl-dev"
 
     [resources.database]
     type = "postgresql"
