@@ -75,13 +75,13 @@ then
 
 	# Download, check integrity, uncompress and patch the source from app.src
 	ynh_setup_source --dest_dir="$install_dir"
+	chown -R $app:$app "$install_dir"
+	chmod -R o-rwx "$install_dir"
+
 fi
 
 ynh_install_nodejs --nodejs_version=$nodejs_version
 ynh_use_nodejs
-
-chown -R $app:$app "$install_dir"
-chmod -R o-rwx "$install_dir"
 
 #=================================================
 # REAPPLY SYSTEM CONFIGURATIONS
@@ -132,17 +132,20 @@ chown $app:$app "$install_dir/api/.env"
 ### ynh_replace_string --match_string="match_string" --replace_string="replace_string" --target_file="$install_dir/some_config_file"
 ### ynh_store_file_checksum --file="$install_dir/some_config_file"
 
-#=================================================
-# BUILD BACKEND
-#=================================================
-ynh_script_progression --message="Building crabfit backend..." --weight=10
-build_backend
+if [ "$upgrade_type" == "UPGRADE_APP" ]
+then
+	#=================================================
+	# BUILD BACKEND
+	#=================================================
+	ynh_script_progression --message="Building crabfit backend..." --weight=10
+	build_backend
 
-#=================================================
-# BUILD FRONTEND
-#=================================================
-ynh_script_progression --message="Building crabfit frontend..." --weight=2
-build_frontend
+	#=================================================
+	# BUILD FRONTEND
+	#=================================================
+	ynh_script_progression --message="Building crabfit frontend..." --weight=2
+	build_frontend
+fi
 
 #=================================================
 # START SYSTEMD SERVICE
