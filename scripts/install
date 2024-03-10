@@ -18,6 +18,7 @@ ynh_script_progression --message="Setting up source files..." --weight=1
 
 # Download, check integrity, uncompress and patch the source from app.src
 ynh_setup_source --dest_dir="$install_dir"
+
 chown -R $app:$app "$install_dir"
 chmod -R o-rwx "$install_dir"
 
@@ -49,11 +50,11 @@ ynh_script_progression --message="Adding configuration files..." --weight=1
 
 # Replace the default .env.local with our own
 rm $install_dir/frontend/.env.local
-ynh_add_config --template="../conf/front.env" --destination="$install_dir/frontend/.env.local"
+ynh_add_config --template="front.env" --destination="$install_dir/frontend/.env.local"
 chmod 400 "$install_dir/frontend/.env.local"
 chown $app:$app "$install_dir/frontend/.env.local"
 
-ynh_add_config --template="../conf/back.env" --destination="$install_dir/api/.env"
+ynh_add_config --template="back.env" --destination="$install_dir/api/.env"
 chmod 400 "$install_dir/api/.env"
 chown $app:$app "$install_dir/api/.env"
 
@@ -61,12 +62,14 @@ chown $app:$app "$install_dir/api/.env"
 # BUILD BACKEND
 #=================================================
 ynh_script_progression --message="Building crabfit backend..." --weight=10
+
 build_backend
 
 #=================================================
 # BUILD FRONTEND
 #=================================================
 ynh_script_progression --message="Building crabfit frontend..." --weight=2
+
 build_frontend
 
 #=================================================
