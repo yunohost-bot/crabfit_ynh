@@ -77,6 +77,9 @@ then
 	ynh_setup_source --dest_dir="$install_dir"
 fi
 
+ynh_install_nodejs --nodejs_version=$nodejs_version
+ynh_use_nodejs
+
 chown -R $app:$app "$install_dir"
 chmod -R o-rwx "$install_dir"
 
