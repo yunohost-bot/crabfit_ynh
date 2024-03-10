@@ -1,0 +1,23 @@
+diff --git a/api/src/main.rs b/api/src/main.rs
+index da3e2c3..3ebd00e 100644
+--- a/api/src/main.rs
++++ b/api/src/main.rs
+@@ -60,6 +60,9 @@ async fn main() {
+             .unwrap(),
+         );
+ 
++    let port = env::var("PORT").unwrap_or("3000".to_string());
++    let port = port.parse::<u16>().expect("Unable to parse port");
++
+     // Rate limiting configuration (using tower_governor)
+     // From the docs: Allows bursts with up to 20 requests and replenishes
+     // one element after 500ms, based on peer IP.
+@@ -99,7 +102,7 @@ async fn main() {
+         .layer(rate_limit)
+         .layer(TraceLayer::new_for_http());
+ 
+-    let addr = SocketAddr::from(([0, 0, 0, 0], 3000));
++    let addr = SocketAddr::from(([127, 0, 0, 1], port));
+ 
+     println!(
+         "🦀 Crab Fit API listening at http://{} in {} mode",
