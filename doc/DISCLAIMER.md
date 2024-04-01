@@ -1,2 +1,0 @@
-- Needs a dedicated domain
-- Temporarily downloads and compile cargo for the backend installation
