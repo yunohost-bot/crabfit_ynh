@@ -35,8 +35,7 @@ function build_backend
 function build_frontend
 {
 	pushd $install_dir/frontend
-		ynh_exec_warn_less env "$ynh_node_load_PATH" $nodejs_path/corepack enable
-		ynh_exec_warn_less ynh_exec_as "$app" env "$ynh_node_load_PATH" $nodejs_path/yarn install --production --frozen-lockfile
+		ynh_exec_warn_less ynh_exec_as "$app" env "$ynh_node_load_PATH" $ynh_npm install next
 		ynh_exec_warn_less ynh_exec_as "$app" env "$ynh_node_load_PATH" $ynh_npm run build
 	popd
 
