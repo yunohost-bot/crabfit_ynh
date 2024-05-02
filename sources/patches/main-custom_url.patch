@@ -1,0 +1,68 @@
+diff --git a/frontend/.env.local b/frontend/.env.local
+index ee43468..6876cfc 100644
+--- a/frontend/.env.local
++++ b/frontend/.env.local
+@@ -1,4 +1,5 @@
+ NEXT_PUBLIC_API_URL="http://127.0.0.1:3000"
++NEXT_PUBLIC_DOMAIN_FRONT="crab.fit"
+ 
+ # Google auth for calendar syncing, feature will be disabled if these aren't set
+ # NEXT_PUBLIC_GOOGLE_CLIENT_ID=""
+diff --git a/frontend/src/app/[id]/page.tsx b/frontend/src/app/[id]/page.tsx
+index a3af022..c1350a6 100644
+--- a/frontend/src/app/[id]/page.tsx
++++ b/frontend/src/app/[id]/page.tsx
+@@ -13,6 +13,11 @@ import { makeClass, relativeTimeFormat } from '/src/utils'
+ import EventAvailabilities from './EventAvailabilities'
+ import styles from './page.module.scss'
+ 
++if (process.env.NEXT_PUBLIC_DOMAIN_FRONT === undefined) {
++  throw new Error('Expected front domain name environment variable')
++}
++const DOMAIN_FRONT = process.env.NEXT_PUBLIC_DOMAIN_FRONT
++
+ interface PageProps {
+   params: { id: string }
+ }
+@@ -49,10 +54,10 @@ const Page = async ({ params }: PageProps) => {
+         >{t('common:created', { date: relativeTimeFormat(Temporal.Instant.fromEpochSeconds(event.created_at), i18n.language) })}</span>
+ 
+         <Copyable className={styles.info}>
+-          {`https://crab.fit/${event.id}`}
++          {`https://${DOMAIN_FRONT}/${event.id}`}
+         </Copyable>
+         <p className={makeClass(styles.info, styles.noPrint)}>
+-          <Trans i18nKey="event:nav.shareinfo" t={t} i18n={i18n}>_<a href={`mailto:?subject=${encodeURIComponent(t('event:nav.email_subject', { event_name: event.name }))}&body=${encodeURIComponent(`${t('event:nav.email_body')} https://crab.fit/${event.id}`)}`}>_</a>_</Trans>
++          <Trans i18nKey="event:nav.shareinfo" t={t} i18n={i18n}>_<a href={`mailto:?subject=${encodeURIComponent(t('event:nav.email_subject', { event_name: event.name }))}&body=${encodeURIComponent(`${t('event:nav.email_body')} https://${DOMAIN_FRONT}/${event.id}`)}`}>_</a>_</Trans>
+         </p>
+       </Content>
+     </Suspense>
+diff --git a/frontend/src/components/CreateForm/components/EventInfo/EventInfo.tsx b/frontend/src/components/CreateForm/components/EventInfo/EventInfo.tsx
+index 4376001..159eb82 100644
+--- a/frontend/src/components/CreateForm/components/EventInfo/EventInfo.tsx
++++ b/frontend/src/components/CreateForm/components/EventInfo/EventInfo.tsx
+@@ -6,6 +6,11 @@ import { useTranslation } from '/src/i18n/client'
+ 
+ import styles from './EventInfo.module.scss'
+ 
++if (process.env.NEXT_PUBLIC_DOMAIN_FRONT === undefined) {
++  throw new Error('Expected front domain name environment variable')
++}
++const DOMAIN_FRONT = process.env.NEXT_PUBLIC_DOMAIN_FRONT
++
+ interface EventInfoProps {
+   event: EventResponse
+ }
+@@ -16,10 +21,10 @@ const EventInfo = ({ event }: EventInfoProps) => {
+   return <div className={styles.wrapper}>
+     <h2>{event.name}</h2>
+     <Copyable className={styles.info}>
+-      {`https://crab.fit/${event.id}`}
++      {`https://${DOMAIN_FRONT}/${event.id}`}
+     </Copyable>
+     <p className={styles.info}>
+-      <Trans i18nKey="event:nav.shareinfo_alt" t={t} i18n={i18n}>_<a href={`mailto:?subject=${encodeURIComponent(t('nav.email_subject', { event_name: event.name }))}&body=${encodeURIComponent(`${t('nav.email_body')} https://crab.fit/${event.id}`)}`} target="_blank">_</a>_</Trans>
++      <Trans i18nKey="event:nav.shareinfo_alt" t={t} i18n={i18n}>_<a href={`mailto:?subject=${encodeURIComponent(t('nav.email_subject', { event_name: event.name }))}&body=${encodeURIComponent(`${t('nav.email_body')} https://${DOMAIN_FRONT}/${event.id}`)}`} target="_blank">_</a>_</Trans>
+     </p>
+   </div>
+ }
