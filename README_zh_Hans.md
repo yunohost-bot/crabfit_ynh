@@ -26,7 +26,7 @@ Results update live and you will be able to see a heat-map of when everyone is f
 - Editable using a one-time password
 
 
-**分发版本：** 1.0~ynh3
+**分发版本：** 1.0~ynh4
 
 **演示：** <https://crab.fit>
 

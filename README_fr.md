@@ -26,7 +26,7 @@ Les résultats sont mis à jour en direct et vous pourrez voir une carte thermiq
 - Modifiable après coup à l'aide d'un mot de passe à usage unique
 
 
-**Version incluse :** 1.0~ynh3
+**Version incluse :** 1.0~ynh4
 
 **Démo :** <https://crab.fit>
 
