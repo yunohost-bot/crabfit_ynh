@@ -3,7 +3,7 @@
 请勿手动编辑。
 -->
 
-# YunoHost 的 Crab Fit
+# YunoHost 上的 Crab Fit
 
 [![集成程度](https://dash.yunohost.org/integration/crabfit.svg)](https://dash.yunohost.org/appci/app/crabfit) ![工作状态](https://ci-apps.yunohost.org/ci/badges/crabfit.status.svg) ![维护状态](https://ci-apps.yunohost.org/ci/badges/crabfit.maintain.svg)
 
